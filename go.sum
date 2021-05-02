@@ -1,0 +1,17 @@
+github.com/gvallee/go_benchmark v1.0.0 h1:twXGV8e339EyfEa60yRMms2KO2n5mueVAxabgThHJGA=
+github.com/gvallee/go_benchmark v1.0.0/go.mod h1:7BPmE7UODZIuQ4IK8xyNydKatbE5Ibl9fryRAMbH0io=
+github.com/gvallee/go_exec v0.0.2/go.mod h1:b8ZYmmYCaHo/g92ZHvYK8LnTp06sdTU3u2CjisIyA9w=
+github.com/gvallee/go_exec v0.0.3 h1:lQz2KPEn0UCYj6dYyZEF6wq6oVnMZKZZ7CoeertFmpQ=
+github.com/gvallee/go_exec v0.0.3/go.mod h1:b8ZYmmYCaHo/g92ZHvYK8LnTp06sdTU3u2CjisIyA9w=
+github.com/gvallee/go_hpc_jobmgr v0.0.10 h1:ovSITVsHpLnqs6PoAGdgY53Dxg+/IFHQ49bx7JGI9gc=
+github.com/gvallee/go_hpc_jobmgr v0.0.10/go.mod h1:lP+cam56d8Tt2BIU4RjRsy+vxcvkr08xUPI1iZAp8oA=
+github.com/gvallee/go_software_build v0.0.17 h1:MhoPimLLG6Jd+r987i1sbTcnVZd9LFuQbR/oNcWsmwM=
+github.com/gvallee/go_software_build v0.0.17/go.mod h1:xpG+JoRV2XgxWOWmwuySzdKs2+jhWIeLu3MtTrWfQ2Y=
+github.com/gvallee/go_util v1.0.0/go.mod h1:fTexpwdH/n05Ziu0TXJIQsr7E+46QpBxNdeOOsyC0/s=
+github.com/gvallee/go_util v1.0.1/go.mod h1:fTexpwdH/n05Ziu0TXJIQsr7E+46QpBxNdeOOsyC0/s=
+github.com/gvallee/go_util v1.1.0 h1:qSwjCPTejJ8zbhFmpJ3WQtzpNOHWQwc4ijFsTbCJK7s=
+github.com/gvallee/go_util v1.1.0/go.mod h1:fTexpwdH/n05Ziu0TXJIQsr7E+46QpBxNdeOOsyC0/s=
+github.com/gvallee/go_workspace v1.0.0 h1:JqXgfqeEXSQUj0UXCov2IonQNDrWY7nP/83pRoTMM4g=
+github.com/gvallee/go_workspace v1.0.0/go.mod h1:AEaRiDQPRD603BNzIyHOI51aT2Suk/PHRBgcM8w4bEw=
+github.com/gvallee/kv v1.0.0/go.mod h1:sfSclfFfLV+Y+9e9FayIbBUOtvbt1779S6q52bSSU5E=
+github.com/sylabs/singularity-mpi v1.2.2/go.mod h1:drvCxAHw6GUmtBLG4luqkjHYmABUTlWbCk4Ff1GoiFc=
