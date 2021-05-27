@@ -362,6 +362,7 @@ func ParseCfg(cfg *benchmark.Config, basedir string, ID string, srcDir string, k
 // Compile downloads and installs OSU on the host
 func Compile(cfg *benchmark.Config, wp *workspace.Config, flavorName string) (*benchmark.Install, error) {
 	b := new(builder.Builder)
+	b.Persistent = wp.InstallDir
 	b.App.Name = flavorName
 	b.App.URL = cfg.URL
 
