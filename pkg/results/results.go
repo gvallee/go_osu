@@ -133,14 +133,14 @@ func Excelize(excelFilePath string, results *Results) error {
 	excelFile := excelize.NewFile()
 
 	// Add the message sizes into the first column
-	lineID := 1
+	lineID := 1 // 1-indexed to match Excel semantics
 	for _, dp := range results.Result[0].DataPoints {
 		excelFile.SetCellValue("Sheet1", fmt.Sprintf("A%d", lineID), dp.Size)
 		lineID++
 	}
 
 	// Add the values
-	col := 1 // 1-indexed
+	col := 1 // 0-indexed so it can be used with IntToAA
 	for _, d := range results.Result {
 		err := addValuesToExcel(excelFile, 1, col, d.DataPoints)
 		if err != nil {
@@ -161,8 +161,8 @@ func ExcelizeWithLabels(excelFilePath string, results *Results, labels []string)
 	excelFile := excelize.NewFile()
 
 	// Add the labels
-	lineID := 1
-	col := 2
+	lineID := 1 // 1-indexed to match Excel semantics
+	col := 1    // 0-indexed so it can be used with IntToAA
 	for _, label := range labels {
 		excelFile.SetCellValue("Sheet1", fmt.Sprintf("%s%d", notation.IntToAA(col), lineID), label)
 		col++
@@ -176,7 +176,7 @@ func ExcelizeWithLabels(excelFilePath string, results *Results, labels []string)
 	}
 
 	// Add the values
-	col = 2    // 1-indexed
+	col = 1    // 0-indexed so it can be used with IntToAA
 	lineID = 2 // 1-indexed
 	for _, d := range results.Result {
 		err := addValuesToExcel(excelFile, lineID, col, d.DataPoints)
