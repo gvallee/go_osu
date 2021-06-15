@@ -11,7 +11,6 @@ import (
 	"log"
 	"os"
 	"path/filepath"
-	"strconv"
 	"strings"
 
 	"github.com/gvallee/go_benchmark/pkg/benchmark"
@@ -442,49 +441,4 @@ func DetectInstall(cfg *benchmark.Config, wp *workspace.Config) map[string]*benc
 // Display shows the current OSU configuration
 func Display(cfg *benchmark.Config) {
 	fmt.Printf("\tOSU URL: %s\n", cfg.URL)
-}
-
-func ExtractDataFromOutput(benchmarkOutput []string) ([]float64, []float64, error) {
-	var x []float64
-	var y []float64
-
-	var val1 float64
-	var val2 float64
-
-	var err error
-
-	for _, line := range benchmarkOutput {
-		val1 = -1.0
-		val2 = -1.0
-
-		if line == "" {
-			continue
-		}
-		if strings.HasPrefix(line, "#") {
-			continue
-		}
-
-		tokens := strings.Split(line, " ")
-		for _, t := range tokens {
-			if t == " " || t == "" {
-				continue
-			}
-
-			if val1 == -1.0 {
-				val1, err = strconv.ParseFloat(t, 64)
-				if err != nil {
-					return nil, nil, err
-				}
-				x = append(x, val1)
-			} else {
-				val2, err = strconv.ParseFloat(t, 64)
-				if err != nil {
-					return nil, nil, err
-				}
-				y = append(y, val2)
-			}
-		}
-	}
-
-	return x, y, nil
 }
