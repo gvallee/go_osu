@@ -119,6 +119,16 @@ func GetResultsFromFiles(listFiles []string) (*Results, error) {
 	return res, nil
 }
 
+func addValuesToExcel(excelFile *excelize.File, lineStart int, col int, datapoints []*DataPoint) error {
+	colID := notation.IntToAA(col)
+	lineID := lineStart
+	for _, d := range datapoints {
+		excelFile.SetCellValue("Sheet1", fmt.Sprintf("%s%d", colID, lineID), d.Value)
+		lineID++
+	}
+	return nil
+}
+
 func Excelize(excelFilePath string, results *Results) error {
 	excelFile := excelize.NewFile()
 
@@ -129,14 +139,51 @@ func Excelize(excelFilePath string, results *Results) error {
 		lineID++
 	}
 
-	col := 1
+	// Add the values
+	col := 1 // 1-indexed
 	for _, d := range results.Result {
-		colID := notation.IntToAA(col)
-		lineID := 1
-		for _, dataPoint := range d.DataPoints {
-			excelFile.SetCellValue("Sheet1", fmt.Sprintf("%s%d", colID, lineID), dataPoint.Value)
-			lineID++
+		err := addValuesToExcel(excelFile, 1, col, d.DataPoints)
+		if err != nil {
+			return err
 		}
+		col++
+	}
+
+	err := excelFile.SaveAs(excelFilePath)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func ExcelizeWithLabels(excelFilePath string, results *Results, labels []string) error {
+	excelFile := excelize.NewFile()
+
+	// Add the labels
+	lineID := 1
+	col := 2
+	for _, label := range labels {
+		excelFile.SetCellValue("Sheet1", fmt.Sprintf("%s%d", notation.IntToAA(col), lineID), label)
+		col++
+	}
+
+	// Add the message sizes into the first column
+	lineID = 2 // 1-indexed
+	for _, dp := range results.Result[0].DataPoints {
+		excelFile.SetCellValue("Sheet1", fmt.Sprintf("A%d", lineID), dp.Size)
+		lineID++
+	}
+
+	// Add the values
+	col = 2    // 1-indexed
+	lineID = 2 // 1-indexed
+	for _, d := range results.Result {
+		err := addValuesToExcel(excelFile, lineID, col, d.DataPoints)
+		if err != nil {
+			return err
+		}
+		col++
 	}
 
 	err := excelFile.SaveAs(excelFilePath)
