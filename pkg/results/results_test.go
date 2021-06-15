@@ -61,7 +61,7 @@ func TestExcelize(t *testing.T) {
 	res := new(Results)
 	err = rawDataToResults(dataSizes, values, res)
 	if err != nil {
-		t.Fatalf("rawDataToResults90 failed: %s", err)
+		t.Fatalf("rawDataToResults() failed: %s", err)
 	}
 
 	tempDir, err := ioutil.TempDir("", "")
