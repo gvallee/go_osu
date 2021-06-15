@@ -120,7 +120,7 @@ func TestExcelize(t *testing.T) {
 		t.Fatalf("unable to create temporary directory: %s", err)
 	}
 	defer os.RemoveAll(tempDir)
-	tempFile := filepath.Join(tempDir, "test.xslx")
+	tempFile := filepath.Join(tempDir, "test.xlsx")
 	err = Excelize(tempFile, res)
 	if err != nil {
 		t.Fatalf("Excelize() failed: %s", err)
@@ -136,7 +136,7 @@ func TestExcelizeWithLabels(t *testing.T) {
 		t.Fatalf("unable to create temporary directory: %s", err)
 	}
 	defer os.RemoveAll(tempDir)
-	tempFile := filepath.Join(tempDir, "test_with_labels.xslx")
+	tempFile := filepath.Join(tempDir, "test_with_labels.xlsx")
 	err = ExcelizeWithLabels(tempFile, res, labels)
 	if err != nil {
 		t.Fatalf("Excelize() failed: %s", err)
