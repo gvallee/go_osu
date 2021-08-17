@@ -137,7 +137,7 @@ func TestExcelizeWithLabels(t *testing.T) {
 	}
 	defer os.RemoveAll(tempDir)
 	tempFile := filepath.Join(tempDir, "test_with_labels.xlsx")
-	err = ExcelizeWithLabels(tempFile, res, labels)
+	err = ExcelizeWithLabels(tempFile, 1, res, labels)
 	if err != nil {
 		t.Fatalf("Excelize() failed: %s", err)
 	}

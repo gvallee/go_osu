@@ -119,11 +119,11 @@ func GetResultsFromFiles(listFiles []string) (*Results, error) {
 	return res, nil
 }
 
-func addValuesToExcel(excelFile *excelize.File, lineStart int, col int, datapoints []*DataPoint) error {
+func addValuesToExcel(excelFile *excelize.File, sheetID string, lineStart int, col int, datapoints []*DataPoint) error {
 	colID := notation.IntToAA(col)
 	lineID := lineStart
 	for _, d := range datapoints {
-		excelFile.SetCellValue("Sheet1", fmt.Sprintf("%s%d", colID, lineID), d.Value)
+		excelFile.SetCellValue(sheetID, fmt.Sprintf("%s%d", colID, lineID), d.Value)
 		lineID++
 	}
 	return nil
@@ -142,7 +142,7 @@ func Excelize(excelFilePath string, results *Results) error {
 	// Add the values
 	col := 1 // 0-indexed so it can be used with IntToAA
 	for _, d := range results.Result {
-		err := addValuesToExcel(excelFile, 1, col, d.DataPoints)
+		err := addValuesToExcel(excelFile, "Sheet1", lineID, col, d.DataPoints)
 		if err != nil {
 			return err
 		}
@@ -157,21 +157,28 @@ func Excelize(excelFilePath string, results *Results) error {
 	return nil
 }
 
-func ExcelizeWithLabels(excelFilePath string, results *Results, labels []string) error {
+// Excelize create a MSExcel spreadsheet with all the data passed in, as well as labels associated to the data.
+// The order of the labels is assumed to be the same than the order of the data. The data is included on the sheet
+// of index sheetStart (1-indexed).
+func ExcelizeWithLabels(excelFilePath string, sheetStart int, results *Results, labels []string) error {
+	if sheetStart <= 0 {
+		return fmt.Errorf("invalid sheet start index (must be > 0): %d", sheetStart)
+	}
 	excelFile := excelize.NewFile()
+	sheetID := fmt.Sprintf("Sheet%d", sheetStart)
 
 	// Add the labels
 	lineID := 1 // 1-indexed to match Excel semantics
 	col := 1    // 0-indexed so it can be used with IntToAA
 	for _, label := range labels {
-		excelFile.SetCellValue("Sheet1", fmt.Sprintf("%s%d", notation.IntToAA(col), lineID), label)
+		excelFile.SetCellValue(sheetID, fmt.Sprintf("%s%d", notation.IntToAA(col), lineID), label)
 		col++
 	}
 
 	// Add the message sizes into the first column
 	lineID = 2 // 1-indexed
 	for _, dp := range results.Result[0].DataPoints {
-		excelFile.SetCellValue("Sheet1", fmt.Sprintf("A%d", lineID), dp.Size)
+		excelFile.SetCellValue(sheetID, fmt.Sprintf("A%d", lineID), dp.Size)
 		lineID++
 	}
 
@@ -179,7 +186,7 @@ func ExcelizeWithLabels(excelFilePath string, results *Results, labels []string)
 	col = 1    // 0-indexed so it can be used with IntToAA
 	lineID = 2 // 1-indexed
 	for _, d := range results.Result {
-		err := addValuesToExcel(excelFile, lineID, col, d.DataPoints)
+		err := addValuesToExcel(excelFile, sheetID, lineID, col, d.DataPoints)
 		if err != nil {
 			return err
 		}
