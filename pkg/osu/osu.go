@@ -119,7 +119,12 @@ const (
 	LatencyBinName = "osu_latency"
 )
 
-func getPt2PtSubBenchmarks(basedir string, wp *workspace.Config, m map[string]app.Info) {
+// GetPt2PtSubBenchmarks returns the list of all the point-to-point sub-benchmarks from OSU.
+// The following arguments must be provided: basedir, the name of the OSU install directory in
+// the workspace (should be "osu" by default), the workspace used, and an initialized map where
+// the key is the name of the sub-benchmark (e.g., bw) and the value the structure
+// describing the benchmark.
+func GetPt2PtSubBenchmarks(basedir string, wp *workspace.Config, m map[string]app.Info) {
 	p2pRelativePath := filepath.Join("libexec", "osu-micro-benchmarks", "mpi", "pt2pt")
 	osuPt2Pt2Dir := filepath.Join(wp.InstallDir, basedir, p2pRelativePath)
 
@@ -138,7 +143,12 @@ func getPt2PtSubBenchmarks(basedir string, wp *workspace.Config, m map[string]ap
 	m[latencyBinID] = latencyInfo
 }
 
-func getCollectiveSubBenchmarks(basedir string, wp *workspace.Config, m map[string]app.Info) {
+// GetCollectiveSubBenchmarks returns the list of all the collective sub-benchmarks from OSU.
+// The following arguments must be provided: basedir, the name of the OSU install directory in
+// the workspace (should be "osu" by default), the workspace used, and an initialized map where
+// the key is the name of the sub-benchmark (e.g., alltoallv) and the value the structure
+// describing the benchmark.
+func GetCollectiveSubBenchmarks(basedir string, wp *workspace.Config, m map[string]app.Info) {
 	collectiveRelativePath := filepath.Join("libexec", "osu-micro-benchmarks", "mpi", "collective")
 	osuCollectiveDir := filepath.Join(wp.InstallDir, basedir, collectiveRelativePath)
 
@@ -341,8 +351,8 @@ func getCollectiveSubBenchmarks(basedir string, wp *workspace.Config, m map[stri
 
 func getSubBenchmarks(cfg *benchmark.Config, wp *workspace.Config, basedir string) map[string]app.Info {
 	m := make(map[string]app.Info)
-	getCollectiveSubBenchmarks(basedir, wp, m)
-	getPt2PtSubBenchmarks(basedir, wp, m)
+	GetCollectiveSubBenchmarks(basedir, wp, m)
+	GetPt2PtSubBenchmarks(basedir, wp, m)
 	return m
 }
 
