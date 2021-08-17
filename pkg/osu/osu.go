@@ -393,7 +393,7 @@ func Compile(cfg *benchmark.Config, wp *workspace.Config, flavorName string) (*b
 	// Find MPI and make sure we pass the information about it to the builder
 	mpiInfo := new(implem.Info)
 	mpiInfo.InstallDir = wp.MpiDir
-	err = mpiInfo.Load()
+	err = mpiInfo.Load(nil)
 	if err != nil {
 		return nil, fmt.Errorf("no suitable MPI available: %s", err)
 	}
