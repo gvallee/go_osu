@@ -136,7 +136,7 @@ func addValuesToExcel(excelFile *excelize.File, sheetID string, lineStart int, c
 			dataSizeStr := excelFile.GetCellValue(sheetID, fmt.Sprintf("A%d", lineID))
 			dataSize, err := strconv.ParseFloat(dataSizeStr, 64)
 			if err != nil {
-				return err
+				return fmt.Errorf("unable to parse %s: %w", dataSizeStr, err)
 			}
 			if dataSize == d.Size {
 				break
@@ -160,11 +160,12 @@ func Excelize(excelFilePath string, results *Results) error {
 	}
 
 	// Add the values
-	col := 1 // 0-indexed so it can be used with IntToAA
+	col := 1   // 0-indexed so it can be used with IntToAA
+	lineID = 1 // 1-indexed to match Excel semantics
 	for _, d := range results.Result {
 		err := addValuesToExcel(excelFile, "Sheet1", lineID, col, d.DataPoints)
 		if err != nil {
-			return err
+			return fmt.Errorf("addValuesToExcel() failed: %w", err)
 		}
 		col++
 	}
