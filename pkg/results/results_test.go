@@ -79,6 +79,17 @@ func TestExtractDataFromOutput(t *testing.T) {
 	}
 }
 
+func rawDataToResults(dataSizes []float64, values []float64, res *Results) {
+	newRes := new(Result)
+	for i := 0; i < len(dataSizes); i++ {
+		newDataPoint := new(DataPoint)
+		newDataPoint.Size = dataSizes[i]
+		newDataPoint.Value = values[i]
+		newRes.DataPoints = append(newRes.DataPoints, newDataPoint)
+	}
+	res.Result = append(res.Result, newRes)
+}
+
 func prepExcelizeTest(t *testing.T) *Results {
 	dataSizes, values, err := ExtractDataFromOutput(strings.Split(alltoallResultsExample1, "\n"))
 	if err != nil {
@@ -99,15 +110,8 @@ func prepExcelizeTest(t *testing.T) *Results {
 	}
 
 	res := new(Results)
-	err = rawDataToResults(dataSizes, values, res)
-	if err != nil {
-		t.Fatalf("rawDataToResults() failed: %s", err)
-	}
-
-	err = rawDataToResults(dataSizes2, values2, res)
-	if err != nil {
-		t.Fatalf("rawDataToResults() failed: %s", err)
-	}
+	rawDataToResults(dataSizes, values, res)
+	rawDataToResults(dataSizes2, values2, res)
 
 	return res
 }
