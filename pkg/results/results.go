@@ -9,6 +9,7 @@ package results
 import (
 	"fmt"
 	"io/ioutil"
+	"log"
 	"strconv"
 	"strings"
 
@@ -43,6 +44,7 @@ func ExtractDataFromOutput(benchmarkOutput []string) ([]float64, []float64, erro
 	var err error
 
 	save := false
+	stop := false
 
 	for _, line := range benchmarkOutput {
 		val1 = -1.0
@@ -51,7 +53,7 @@ func ExtractDataFromOutput(benchmarkOutput []string) ([]float64, []float64, erro
 		if line == "" {
 			continue
 		}
-		if strings.HasPrefix(line, "#") {
+		if strings.HasPrefix(line, "# Size") {
 			if !save {
 				save = true
 			}
@@ -72,17 +74,33 @@ func ExtractDataFromOutput(benchmarkOutput []string) ([]float64, []float64, erro
 			if val1 == -1.0 {
 				val1, err = strconv.ParseFloat(t, 64)
 				if err != nil {
-					return nil, nil, fmt.Errorf("unable to convert %s (from %s): %w", t, line, err)
+					if len(x) == 0 {
+						return nil, nil, fmt.Errorf("unable to convert %s (from %s): %w", t, line, err)
+					} else {
+						log.Printf("stop parsing, unable to convert %s (from %s): %s", t, line, err)
+						stop = true
+						break
+					}
 				}
 				x = append(x, val1)
 			} else {
 				val2, err = strconv.ParseFloat(t, 64)
 				if err != nil {
-					return nil, nil, fmt.Errorf("unable to convert %s (from %s): %w", t, line, err)
+					if len(y) == 0 {
+						return nil, nil, fmt.Errorf("unable to convert %s (from %s): %w", t, line, err)
+					} else {
+						log.Printf("stop parsing, unable to convert %s (from %s): %s", t, line, err)
+						stop = true
+						break
+					}
 				}
 				y = append(y, val2)
 				break // todo: we need to extend this for sub-benchmarks returning more than one value (see what is done in OpenHPCA)
 			}
+		}
+
+		if stop {
+			break
 		}
 	}
 
@@ -90,6 +108,7 @@ func ExtractDataFromOutput(benchmarkOutput []string) ([]float64, []float64, erro
 }
 
 func ParseOutputFile(path string) (*Result, error) {
+	log.Printf("Parsing result file %s", path)
 	content, err := ioutil.ReadFile(path)
 	if err != nil {
 		return nil, err
@@ -184,6 +203,12 @@ func Excelize(excelFilePath string, results *Results) error {
 func ExcelizeWithLabels(sheetStart int, results *Results, labels []string) (*excelize.File, error) {
 	if sheetStart <= 0 {
 		return nil, fmt.Errorf("invalid sheet start index (must be > 0): %d", sheetStart)
+	}
+	if results == nil {
+		return nil, fmt.Errorf("undefined results")
+	}
+	if len(results.Result) == 0 {
+		return nil, fmt.Errorf("empty result dataset")
 	}
 	excelFile := excelize.NewFile()
 	sheetID := fmt.Sprintf("Sheet%d", sheetStart)
