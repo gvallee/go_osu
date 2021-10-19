@@ -53,8 +53,8 @@ func ExtractDataFromOutput(benchmarkOutput []string) ([]float64, []float64, erro
 		if line == "" {
 			continue
 		}
-		if strings.HasPrefix(line, "# Size") {
-			if !save {
+		if strings.HasPrefix(line, "#") {
+			if !save && strings.HasPrefix(line, "# OSU") {
 				save = true
 			}
 			continue
