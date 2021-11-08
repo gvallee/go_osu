@@ -471,9 +471,22 @@ func Compile(cfg *benchmark.Config, wp *workspace.Config, flavorName string) (*b
 	b.App.Name = flavorName
 	b.App.URL = cfg.URL
 
-	if wp.ScratchDir == "" || wp.InstallDir == "" || wp.BuildDir == "" || wp.SrcDir == "" {
-		return nil, fmt.Errorf("invalid workspace")
+	if wp.ScratchDir == "" {
+		return nil, fmt.Errorf("workspace's scratch directory is undefined")
 	}
+
+	if wp.InstallDir == "" {
+		return nil, fmt.Errorf("workspace's install directory is undefined")
+	}
+
+	if wp.BuildDir == "" {
+		return nil, fmt.Errorf("workspace's build directory is undefined")
+	}
+
+	if wp.SrcDir == "" {
+		return nil, fmt.Errorf("workspace's source directory is undefined")
+	}
+
 	b.Env.ScratchDir = wp.ScratchDir
 	b.Env.InstallDir = wp.InstallDir
 	b.Env.BuildDir = wp.BuildDir
@@ -510,7 +523,7 @@ func Compile(cfg *benchmark.Config, wp *workspace.Config, flavorName string) (*b
 	res := b.Install()
 	if res.Err != nil {
 		log.Printf("error while install OSU: %s; stdout: %s; stderr: %s", res.Err, res.Stdout, res.Stderr)
-		return nil, res.Err
+		return nil, fmt.Errorf("builder.Install() failed: %w", res.Err)
 	}
 
 	installInfo := new(benchmark.Install)
