@@ -30,91 +30,91 @@ const (
 	OSUNonConfigMemBaseDir = "osu_noncontig_mem"
 
 	AlltoallID      = "alltoall"
-	alltoallBinName = "osu_alltoall"
+	AlltoallBinName = "osu_alltoall"
 
 	IalltoallID      = "ialltoall"
-	ialltoallBinName = "osu_ialltoall"
+	IalltoallBinName = "osu_ialltoall"
 
 	AlltoallvID      = "alltoallv"
-	alltoallvBinName = "osu_alltoallv"
+	AlltoallvBinName = "osu_alltoallv"
 
 	IalltoallvID      = "ialltoallv"
-	ialltoallvBinName = "osu_ialltoallv"
+	IalltoallvBinName = "osu_ialltoallv"
 
 	AlltoallwID      = "alltoallw"
-	alltoallwBinName = "osu_alltoallw"
+	AlltoallwBinName = "osu_alltoallw"
 
 	IalltoallwID      = "ialltoallw"
-	ialltoallwBinName = "osu_ialltoallw"
+	IalltoallwBinName = "osu_ialltoallw"
 
 	AllgatherID      = "allgather"
-	allgatherBinName = "osu_allgather"
+	AllgatherBinName = "osu_allgather"
 
 	IallgatherID      = "iallgather"
-	iallgatherBinName = "osu_iallgather"
+	IallgatherBinName = "osu_iallgather"
 
 	AllgathervID      = "allgatherv"
-	allgathervBinName = "osu_allgatherv"
+	AllgathervBinName = "osu_allgatherv"
 
 	IallgathervID      = "iallgatherv"
-	iallgathervBinName = "osu_iallgatherv"
+	IallgathervBinName = "osu_iallgatherv"
 
 	AllreduceID      = "allreduce"
-	allreduceBinName = "osu_allreduce"
+	AllreduceBinName = "osu_allreduce"
 
 	IallreduceID      = "iallreduce"
-	iallreduceBinName = "osu_iallreduce"
+	IallreduceBinName = "osu_iallreduce"
 
 	BarrierID      = "barrier"
-	barrierBinName = "osu_barrier"
+	BarrierBinName = "osu_barrier"
 
 	IbarrierID      = "ibarrier"
-	ibarrierBinName = "osu_ibarrier"
+	IbarrierBinName = "osu_ibarrier"
 
 	BcastID      = "bcast"
-	bcastBinName = "osu_bcast"
+	BcastBinName = "osu_bcast"
 
 	IbcastID      = "ibcast"
-	ibcastBinName = "osu_ibcast"
+	IbcastBinName = "osu_ibcast"
 
 	GatherID      = "gather"
-	gatherBinName = "osu_gather"
+	GatherBinName = "osu_gather"
 
 	IgatherID      = "igather"
-	igatherBinName = "osu_igather"
+	IgatherBinName = "osu_igather"
 
 	GathervID      = "gatherv"
-	gathervBinName = "osu_gatherv"
+	GathervBinName = "osu_gatherv"
 
 	IgathervID      = "igatherv"
-	igathervBinName = "osu_igatherv"
+	IgathervBinName = "osu_igatherv"
 
 	ReduceID      = "reduce"
-	reduceBinName = "osu_reduce"
+	ReduceBinName = "osu_reduce"
 
 	IreduceID      = "ireduce"
-	ireduceBinName = "osu_ireduce"
+	IreduceBinName = "osu_ireduce"
 
 	ReduceScatterID      = "reduce_scatter"
-	reduceScatterBinName = "osu_reduce_scatter"
+	ReduceScatterBinName = "osu_reduce_scatter"
 
 	IreduceScatterID      = "ireduce_scatter"
-	ireduceScatterBinName = "osu_ireduce_scatter"
+	IreduceScatterBinName = "osu_ireduce_scatter"
 
 	ScatterID      = "scatter"
-	scatterBinName = "osu_scatter"
+	ScatterBinName = "osu_scatter"
 
 	IscatterID      = "iscatter"
-	iscatterBinName = "osu_iscatter"
+	IscatterBinName = "osu_iscatter"
 
 	ScattervID      = "scatterv"
-	scattervBinName = "osu_scatterv"
+	ScattervBinName = "osu_scatterv"
 
 	IscattervID      = "iscatterv"
-	iscattervBinName = "osu_iscatterv"
+	IscattervBinName = "osu_iscatterv"
 
 	BWID      = "bw"
-	bwBinName = "osu_bw"
+	BWBinName = "osu_bw"
 
 	LatencyID      = "latency"
 	LatencyBinName = "osu_latency"
@@ -137,8 +137,8 @@ func GetPt2PtSubBenchmarks(basedir string, wp *workspace.Config, m map[string]Su
 	bwInfo := SubBenchmark{
 		AppInfo: app.Info{
 			Name:    BWID,
-			BinName: bwBinName,
-			BinPath: filepath.Join(osuPt2Pt2Dir, bwBinName),
+			BinName: BWBinName,
+			BinPath: filepath.Join(osuPt2Pt2Dir, BWBinName),
 		},
 		OutputParser: nil,
 	}
@@ -167,8 +167,8 @@ func GetCollectiveSubBenchmarks(basedir string, wp *workspace.Config, m map[stri
 	allgatherInfo := SubBenchmark{
 		AppInfo: app.Info{
 			Name:    AllgatherID,
-			BinName: allgatherBinName,
-			BinPath: filepath.Join(osuCollectiveDir, allgatherBinName),
+			BinName: AllgatherBinName,
+			BinPath: filepath.Join(osuCollectiveDir, AllgatherBinName),
 		},
 		OutputParser: results.ParseOutputFile,
 	}
@@ -177,8 +177,8 @@ func GetCollectiveSubBenchmarks(basedir string, wp *workspace.Config, m map[stri
 	iallgatherInfo := SubBenchmark{
 		AppInfo: app.Info{
 			Name:    IallgatherID,
-			BinName: iallgatherBinName,
-			BinPath: filepath.Join(osuCollectiveDir, iallgatherBinName),
+			BinName: IallgatherBinName,
+			BinPath: filepath.Join(osuCollectiveDir, IallgatherBinName),
 		},
 		OutputParser: nil,
 	}
@@ -187,8 +187,8 @@ func GetCollectiveSubBenchmarks(basedir string, wp *workspace.Config, m map[stri
 	allgathervInfo := SubBenchmark{
 		AppInfo: app.Info{
 			Name:    AllgathervID,
-			BinName: allgathervBinName,
-			BinPath: filepath.Join(osuCollectiveDir, allgathervBinName),
+			BinName: AllgathervBinName,
+			BinPath: filepath.Join(osuCollectiveDir, AllgathervBinName),
 		},
 		OutputParser: results.ParseOutputFile,
 	}
@@ -197,8 +197,8 @@ func GetCollectiveSubBenchmarks(basedir string, wp *workspace.Config, m map[stri
 	iallgathervInfo := SubBenchmark{
 		AppInfo: app.Info{
 			Name:    IallgathervID,
-			BinName: iallgathervBinName,
-			BinPath: filepath.Join(osuCollectiveDir, iallgathervBinName),
+			BinName: IallgathervBinName,
+			BinPath: filepath.Join(osuCollectiveDir, IallgathervBinName),
 		},
 		OutputParser: nil,
 	}
@@ -207,8 +207,8 @@ func GetCollectiveSubBenchmarks(basedir string, wp *workspace.Config, m map[stri
 	allreduceInfo := SubBenchmark{
 		AppInfo: app.Info{
 			Name:    AllreduceID,
-			BinName: allreduceBinName,
-			BinPath: filepath.Join(osuCollectiveDir, allreduceBinName),
+			BinName: AllreduceBinName,
+			BinPath: filepath.Join(osuCollectiveDir, AllreduceBinName),
 		},
 		OutputParser: results.ParseOutputFile,
 	}
@@ -217,8 +217,8 @@ func GetCollectiveSubBenchmarks(basedir string, wp *workspace.Config, m map[stri
 	iallreduceInfo := SubBenchmark{
 		AppInfo: app.Info{
 			Name:    IallreduceID,
-			BinName: iallreduceBinName,
-			BinPath: filepath.Join(osuCollectiveDir, iallreduceBinName),
+			BinName: IallreduceBinName,
+			BinPath: filepath.Join(osuCollectiveDir, IallreduceBinName),
 		},
 		OutputParser: nil,
 	}
@@ -227,8 +227,8 @@ func GetCollectiveSubBenchmarks(basedir string, wp *workspace.Config, m map[stri
 	alltoallInfo := SubBenchmark{
 		AppInfo: app.Info{
 			Name:    AlltoallID,
-			BinName: alltoallBinName,
-			BinPath: filepath.Join(osuCollectiveDir, alltoallBinName),
+			BinName: AlltoallBinName,
+			BinPath: filepath.Join(osuCollectiveDir, AlltoallBinName),
 		},
 		OutputParser: results.ParseOutputFile,
 	}
@@ -237,8 +237,8 @@ func GetCollectiveSubBenchmarks(basedir string, wp *workspace.Config, m map[stri
 	ialltoallInfo := SubBenchmark{
 		AppInfo: app.Info{
 			Name:    IalltoallID,
-			BinName: ialltoallBinName,
-			BinPath: filepath.Join(osuCollectiveDir, ialltoallBinName),
+			BinName: IalltoallBinName,
+			BinPath: filepath.Join(osuCollectiveDir, IalltoallBinName),
 		},
 		OutputParser: nil,
 	}
@@ -247,8 +247,8 @@ func GetCollectiveSubBenchmarks(basedir string, wp *workspace.Config, m map[stri
 	alltoallvInfo := SubBenchmark{
 		AppInfo: app.Info{
 			Name:    AlltoallvID,
-			BinName: alltoallvBinName,
-			BinPath: filepath.Join(osuCollectiveDir, alltoallvBinName),
+			BinName: AlltoallvBinName,
+			BinPath: filepath.Join(osuCollectiveDir, AlltoallvBinName),
 		},
 		OutputParser: results.ParseOutputFile,
 	}
@@ -257,8 +257,8 @@ func GetCollectiveSubBenchmarks(basedir string, wp *workspace.Config, m map[stri
 	ialltoallvInfo := SubBenchmark{
 		AppInfo: app.Info{
 			Name:    IalltoallvID,
-			BinName: ialltoallvBinName,
-			BinPath: filepath.Join(osuCollectiveDir, ialltoallvBinName),
+			BinName: IalltoallvBinName,
+			BinPath: filepath.Join(osuCollectiveDir, IalltoallvBinName),
 		},
 		OutputParser: nil,
 	}
@@ -267,8 +267,8 @@ func GetCollectiveSubBenchmarks(basedir string, wp *workspace.Config, m map[stri
 	alltoallwInfo := SubBenchmark{
 		AppInfo: app.Info{
 			Name:    AlltoallwID,
-			BinName: alltoallwBinName,
-			BinPath: filepath.Join(osuCollectiveDir, alltoallwBinName),
+			BinName: AlltoallwBinName,
+			BinPath: filepath.Join(osuCollectiveDir, AlltoallwBinName),
 		},
 		OutputParser: nil,
 	}
@@ -277,8 +277,8 @@ func GetCollectiveSubBenchmarks(basedir string, wp *workspace.Config, m map[stri
 	ialltoallwInfo := SubBenchmark{
 		AppInfo: app.Info{
 			Name:    IalltoallwID,
-			BinName: ialltoallwBinName,
-			BinPath: filepath.Join(osuCollectiveDir, ialltoallwBinName),
+			BinName: IalltoallwBinName,
+			BinPath: filepath.Join(osuCollectiveDir, IalltoallwBinName),
 		},
 		OutputParser: nil,
 	}
@@ -287,8 +287,8 @@ func GetCollectiveSubBenchmarks(basedir string, wp *workspace.Config, m map[stri
 	barrierInfo := SubBenchmark{
 		AppInfo: app.Info{
 			Name:    BarrierID,
-			BinName: barrierBinName,
-			BinPath: filepath.Join(osuCollectiveDir, barrierBinName),
+			BinName: BarrierBinName,
+			BinPath: filepath.Join(osuCollectiveDir, BarrierBinName),
 		},
 		OutputParser: nil,
 	}
@@ -297,8 +297,8 @@ func GetCollectiveSubBenchmarks(basedir string, wp *workspace.Config, m map[stri
 	ibarrierInfo := SubBenchmark{
 		AppInfo: app.Info{
 			Name:    IbarrierID,
-			BinName: ibarrierBinName,
-			BinPath: filepath.Join(osuCollectiveDir, ibarrierBinName),
+			BinName: IbarrierBinName,
+			BinPath: filepath.Join(osuCollectiveDir, IbarrierBinName),
 		},
 		OutputParser: nil,
 	}
@@ -307,8 +307,8 @@ func GetCollectiveSubBenchmarks(basedir string, wp *workspace.Config, m map[stri
 	bcastInfo := SubBenchmark{
 		AppInfo: app.Info{
 			Name:    BcastID,
-			BinName: bcastBinName,
-			BinPath: filepath.Join(osuCollectiveDir, bcastBinName),
+			BinName: BcastBinName,
+			BinPath: filepath.Join(osuCollectiveDir, BcastBinName),
 		},
 		OutputParser: results.ParseOutputFile,
 	}
@@ -317,8 +317,8 @@ func GetCollectiveSubBenchmarks(basedir string, wp *workspace.Config, m map[stri
 	ibcastInfo := SubBenchmark{
 		AppInfo: app.Info{
 			Name:    IbcastID,
-			BinName: ibcastBinName,
-			BinPath: filepath.Join(osuCollectiveDir, ibcastBinName),
+			BinName: IbcastBinName,
+			BinPath: filepath.Join(osuCollectiveDir, IbcastBinName),
 		},
 		OutputParser: nil,
 	}
@@ -327,8 +327,8 @@ func GetCollectiveSubBenchmarks(basedir string, wp *workspace.Config, m map[stri
 	gatherInfo := SubBenchmark{
 		AppInfo: app.Info{
 			Name:    GatherID,
-			BinName: gatherBinName,
-			BinPath: filepath.Join(osuCollectiveDir, gatherBinName),
+			BinName: GatherBinName,
+			BinPath: filepath.Join(osuCollectiveDir, GatherBinName),
 		},
 		OutputParser: results.ParseOutputFile,
 	}
@@ -337,8 +337,8 @@ func GetCollectiveSubBenchmarks(basedir string, wp *workspace.Config, m map[stri
 	igatherInfo := SubBenchmark{
 		AppInfo: app.Info{
 			Name:    IgatherID,
-			BinName: igatherBinName,
-			BinPath: filepath.Join(osuCollectiveDir, igatherBinName),
+			BinName: IgatherBinName,
+			BinPath: filepath.Join(osuCollectiveDir, IgatherBinName),
 		},
 		OutputParser: nil,
 	}
@@ -347,8 +347,8 @@ func GetCollectiveSubBenchmarks(basedir string, wp *workspace.Config, m map[stri
 	gathervInfo := SubBenchmark{
 		AppInfo: app.Info{
 			Name:    GathervID,
-			BinName: gathervBinName,
-			BinPath: filepath.Join(osuCollectiveDir, gathervBinName),
+			BinName: GathervBinName,
+			BinPath: filepath.Join(osuCollectiveDir, GathervBinName),
 		},
 		OutputParser: results.ParseOutputFile,
 	}
@@ -357,8 +357,8 @@ func GetCollectiveSubBenchmarks(basedir string, wp *workspace.Config, m map[stri
 	igathervInfo := SubBenchmark{
 		AppInfo: app.Info{
 			Name:    IgathervID,
-			BinName: igathervBinName,
-			BinPath: filepath.Join(osuCollectiveDir, igathervBinName),
+			BinName: IgathervBinName,
+			BinPath: filepath.Join(osuCollectiveDir, IgathervBinName),
 		},
 		OutputParser: nil,
 	}
@@ -367,8 +367,8 @@ func GetCollectiveSubBenchmarks(basedir string, wp *workspace.Config, m map[stri
 	reduceInfo := SubBenchmark{
 		AppInfo: app.Info{
 			Name:    ReduceID,
-			BinName: reduceBinName,
-			BinPath: filepath.Join(osuCollectiveDir, reduceBinName),
+			BinName: ReduceBinName,
+			BinPath: filepath.Join(osuCollectiveDir, ReduceBinName),
 		},
 		OutputParser: results.ParseOutputFile,
 	}
@@ -377,8 +377,8 @@ func GetCollectiveSubBenchmarks(basedir string, wp *workspace.Config, m map[stri
 	ireduceInfo := SubBenchmark{
 		AppInfo: app.Info{
 			Name:    IreduceID,
-			BinName: ireduceBinName,
-			BinPath: filepath.Join(osuCollectiveDir, ireduceBinName),
+			BinName: IreduceBinName,
+			BinPath: filepath.Join(osuCollectiveDir, IreduceBinName),
 		},
 		OutputParser: nil,
 	}
@@ -387,8 +387,8 @@ func GetCollectiveSubBenchmarks(basedir string, wp *workspace.Config, m map[stri
 	reduceScatterInfo := SubBenchmark{
 		AppInfo: app.Info{
 			Name:    ReduceScatterID,
-			BinName: reduceScatterBinName,
-			BinPath: filepath.Join(osuCollectiveDir, reduceScatterBinName),
+			BinName: ReduceScatterBinName,
+			BinPath: filepath.Join(osuCollectiveDir, ReduceScatterBinName),
 		},
 		OutputParser: results.ParseOutputFile,
 	}
@@ -397,8 +397,8 @@ func GetCollectiveSubBenchmarks(basedir string, wp *workspace.Config, m map[stri
 	ireduceScatterInfo := SubBenchmark{
 		AppInfo: app.Info{
 			Name:    IreduceScatterID,
-			BinName: ireduceScatterBinName,
-			BinPath: filepath.Join(osuCollectiveDir, ireduceScatterBinName),
+			BinName: IreduceScatterBinName,
+			BinPath: filepath.Join(osuCollectiveDir, IreduceScatterBinName),
 		},
 		OutputParser: nil,
 	}
@@ -407,8 +407,8 @@ func GetCollectiveSubBenchmarks(basedir string, wp *workspace.Config, m map[stri
 	scatterInfo := SubBenchmark{
 		AppInfo: app.Info{
 			Name:    ScatterID,
-			BinName: scatterBinName,
-			BinPath: filepath.Join(osuCollectiveDir, scatterBinName),
+			BinName: ScatterBinName,
+			BinPath: filepath.Join(osuCollectiveDir, ScatterBinName),
 		},
 		OutputParser: results.ParseOutputFile,
 	}
@@ -417,8 +417,8 @@ func GetCollectiveSubBenchmarks(basedir string, wp *workspace.Config, m map[stri
 	iscatterInfo := SubBenchmark{
 		AppInfo: app.Info{
 			Name:    IscatterID,
-			BinName: iscatterBinName,
-			BinPath: filepath.Join(osuCollectiveDir, iscatterBinName),
+			BinName: IscatterBinName,
+			BinPath: filepath.Join(osuCollectiveDir, IscatterBinName),
 		},
 		OutputParser: nil,
 	}
@@ -427,8 +427,8 @@ func GetCollectiveSubBenchmarks(basedir string, wp *workspace.Config, m map[stri
 	scattervInfo := SubBenchmark{
 		AppInfo: app.Info{
 			Name:    ScattervID,
-			BinName: scatterBinName,
-			BinPath: filepath.Join(osuCollectiveDir, scatterBinName),
+			BinName: ScatterBinName,
+			BinPath: filepath.Join(osuCollectiveDir, ScatterBinName),
 		},
 		OutputParser: results.ParseOutputFile,
 	}
@@ -437,8 +437,8 @@ func GetCollectiveSubBenchmarks(basedir string, wp *workspace.Config, m map[stri
 	iscattervInfo := SubBenchmark{
 		AppInfo: app.Info{
 			Name:    IscattervID,
-			BinName: iscatterBinName,
-			BinPath: filepath.Join(osuCollectiveDir, iscatterBinName),
+			BinName: IscatterBinName,
+			BinPath: filepath.Join(osuCollectiveDir, IscatterBinName),
 		},
 		OutputParser: nil,
 	}
