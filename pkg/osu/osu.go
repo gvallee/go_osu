@@ -469,7 +469,7 @@ func Compile(cfg *benchmark.Config, wp *workspace.Config, flavorName string) (*b
 	b := new(builder.Builder)
 	b.Persistent = wp.InstallDir
 	b.App.Name = flavorName
-	b.App.URL = cfg.URL
+	b.App.Source.URL = cfg.URL
 
 	if wp.ScratchDir == "" {
 		return nil, fmt.Errorf("workspace's scratch directory is undefined")
