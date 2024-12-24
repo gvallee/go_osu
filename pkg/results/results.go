@@ -63,6 +63,10 @@ func ExtractDataFromOutput(benchmarkOutput []string) ([]float64, []float64, erro
 			// We skip whatever is at the beginning of the file until we reach the OSU header
 			continue
 		}
+		if strings.Contains(line, "more processes have sent help message") {
+			// Open MPI throwing warnings for whatever reason, skipping
+			continue
+		}
 
 		// We replace all double spaces with a single space to make it easier to identify the real data
 		tokens := strings.Split(line, " ")
