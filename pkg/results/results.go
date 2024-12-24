@@ -63,7 +63,7 @@ func ExtractDataFromOutput(benchmarkOutput []string) ([]float64, []float64, erro
 			// We skip whatever is at the beginning of the file until we reach the OSU header
 			continue
 		}
-		if strings.Contains(line, "more processes have sent help message") {
+		if strings.Contains(line, "more processes have sent help message") || strings.Contains(line, "more process have sent help message") {
 			// Open MPI throwing warnings for whatever reason, skipping
 			continue
 		}
