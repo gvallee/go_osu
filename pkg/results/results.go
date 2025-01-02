@@ -67,6 +67,10 @@ func ExtractDataFromOutput(benchmarkOutput []string) ([]float64, []float64, erro
 			// Open MPI throwing warnings for whatever reason, skipping
 			continue
 		}
+		if strings.HasPrefix(line, "\x00") {
+			// Some weird output we get on some platforms (seems to be when OMPI throws out warnings)
+			continue
+		}
 
 		// We replace all double spaces with a single space to make it easier to identify the real data
 		tokens := strings.Split(line, " ")
