@@ -253,3 +253,18 @@ func ExcelizeWithLabels(sheetStart int, results *Results, labels []string) (*exc
 
 	return excelFile, nil
 }
+
+func NewExcelSheetsWithLabels(excelFilePath string, results *Results, labels []string) error {
+	excelFile, err := ExcelizeWithLabels(1, results, labels)
+	if err != nil {
+		return fmt.Errorf("results.Excelize() failed: %w", err)
+	}
+
+	err = excelFile.SaveAs(excelFilePath)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
