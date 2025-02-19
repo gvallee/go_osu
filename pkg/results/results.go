@@ -30,6 +30,31 @@ type Results struct {
 	Result []*Result
 }
 
+// SpreadsheetData represents the data to be saved in a spreadsheet as well as
+// all the information about how to save it (e.g., which sheet)
+type SpreadsheetData struct {
+	// SheetStart is the unique sheet ID where we will start saving the data (most of the time a single sheet)
+	SheetStart int
+
+	// Data is the OSU data to save in the spreadsheet
+	Data *Results
+
+	// Labels is the ordered list of labels associated to the OSU data
+	Labels []string
+}
+
+// SpreadsheetMetadata is the metadata associated to the data
+type SpreadsheetMetadata struct {
+	// SheetID is the unique sheet ID where all the metadata will be saved (single sheet)
+	SheetID int
+
+	// Timestamp is the time stamp in string version associated with the entire experiment
+	Timestamp string
+
+	// Metadata content, one element of the slice per line in the spreadsheet (only one column for now)
+	Content []string
+}
+
 // ExtractDataFromOutput returns the OSU data from a output file. The first
 // array returned represents all the data sizes, while the second returned array
 // represents the value for the associated size (the two arrays are assumed to
@@ -176,7 +201,97 @@ func addValuesToExcel(excelFile *excelize.File, sheetID string, lineStart int, c
 	return nil
 }
 
+func prepSheet(excelFile *excelize.File, sheetNum int) (string, error) {
+	if excelFile == nil {
+		return "", fmt.Errorf("undefined excelFile object")
+	}
+
+	sheetID := fmt.Sprintf("Sheet%d", sheetNum)
+
+	if sheetID != "Sheet1" {
+		excelFile.NewSheet(sheetID)
+	}
+	return sheetID, nil
+}
+
+func addMetadataToSpreadsheet(excelFile *excelize.File, spreadsheetMetadata *SpreadsheetMetadata) error {
+	if excelFile == nil {
+		return fmt.Errorf("undefined excelFile object")
+	}
+
+	if spreadsheetMetadata == nil {
+		return fmt.Errorf("undefined metadata")
+	}
+
+	sheetID, err := prepSheet(excelFile, spreadsheetMetadata.SheetID)
+	if err != nil {
+		return fmt.Errorf("prepSheet() failed: %w", err)
+	}
+
+	lineID := 1 // 1-indexed to match Excel semantics
+	col := 0    // 0-indexed so it can be used with IntToAA
+
+	// Timestamp
+	excelFile.SetCellValue(sheetID, fmt.Sprintf("%s%d", notation.IntToAA(col), lineID), spreadsheetMetadata.Timestamp)
+	col++
+
+	// Metadata content passed in by the user
+	for _, line := range spreadsheetMetadata.Content {
+		excelFile.SetCellValue(sheetID, fmt.Sprintf("%s%d", notation.IntToAA(col), lineID), line)
+		col++
+	}
+
+	return nil
+}
+
+func addDataToSpreadsheet(excelFile *excelize.File, spreadsheetData *SpreadsheetData) error {
+	if excelFile == nil {
+		return fmt.Errorf("undefined excelFile object")
+	}
+
+	if spreadsheetData == nil {
+		return fmt.Errorf("undefined data")
+	}
+
+	sheetID, err := prepSheet(excelFile, spreadsheetData.SheetStart)
+	if err != nil {
+		return fmt.Errorf("prepSheet() failed: %w", err)
+	}
+
+	// Add the labels
+	lineID := 1 // 1-indexed to match Excel semantics
+	col := 1    // 0-indexed so it can be used with IntToAA
+	for _, label := range spreadsheetData.Labels {
+		excelFile.SetCellValue(sheetID, fmt.Sprintf("%s%d", notation.IntToAA(col), lineID), label)
+		col++
+	}
+
+	// Add the message sizes into the first column
+	lineID = 2 // 1-indexed
+	for _, dp := range spreadsheetData.Data.Result[0].DataPoints {
+		excelFile.SetCellValue(sheetID, fmt.Sprintf("A%d", lineID), dp.Size)
+		lineID++
+	}
+
+	// Add the values
+	col = 1    // 0-indexed so it can be used with IntToAA
+	lineID = 2 // 1-indexed
+	for _, d := range spreadsheetData.Data.Result {
+		err := addValuesToExcel(excelFile, sheetID, lineID, col, d.DataPoints)
+		if err != nil {
+			return fmt.Errorf("addValuesToExcel() failed: %w", err)
+		}
+		col++
+	}
+	return nil
+}
+
+// Excelize creates a very simple spreadsheet with only the raw OSU data
 func Excelize(excelFilePath string, results *Results) error {
+	if results == nil {
+		return fmt.Errorf("undefined data")
+	}
+
 	excelFile := excelize.NewFile()
 
 	// Add the message sizes into the first column
@@ -205,57 +320,54 @@ func Excelize(excelFilePath string, results *Results) error {
 	return nil
 }
 
-// Excelize create a MSExcel spreadsheet with all the data passed in, as well as labels associated to the data.
-// The order of the labels is assumed to be the same than the order of the data. The data is included on the sheet
-// of index sheetStart (1-indexed).
-func ExcelizeWithLabels(sheetStart int, results *Results, labels []string) (*excelize.File, error) {
-	if sheetStart <= 0 {
-		return nil, fmt.Errorf("invalid sheet start index (must be > 0): %d", sheetStart)
+// ExcelizeWithLabels create a MSExcel spreadsheet with all the data and metadata passed in.
+// The metadata is saved on a separate sheet and meant to capture all the necessary
+// details to understand the data and how it was gathered.
+// The data includes the OSU data and the corresponding labels associated to the data.
+// The order of the labels is assumed to be the same than the order of the data.
+// All references to sheets is 1-based indexed.
+func ExcelizeWithLabels(spreadsheetMetadata *SpreadsheetMetadata, spreadsheetData *SpreadsheetData) (*excelize.File, error) {
+	if spreadsheetData == nil {
+		return nil, fmt.Errorf("undefined spreadsheet data")
 	}
-	if results == nil {
+
+	if spreadsheetData.SheetStart <= 0 {
+		return nil, fmt.Errorf("invalid sheet start index (must be > 0): %d", spreadsheetData.SheetStart)
+	}
+
+	if spreadsheetData.Data == nil {
 		return nil, fmt.Errorf("undefined results")
 	}
-	if len(results.Result) == 0 {
+
+	if len(spreadsheetData.Data.Result) == 0 {
 		return nil, fmt.Errorf("empty result dataset")
 	}
+
 	excelFile := excelize.NewFile()
-	sheetID := fmt.Sprintf("Sheet%d", sheetStart)
-
-	if sheetID != "Sheet1" {
-		excelFile.NewSheet(sheetID)
+	if excelFile == nil {
+		return nil, fmt.Errorf("excelize.NewFile() failed")
 	}
 
-	// Add the labels
-	lineID := 1 // 1-indexed to match Excel semantics
-	col := 1    // 0-indexed so it can be used with IntToAA
-	for _, label := range labels {
-		excelFile.SetCellValue(sheetID, fmt.Sprintf("%s%d", notation.IntToAA(col), lineID), label)
-		col++
-	}
-
-	// Add the message sizes into the first column
-	lineID = 2 // 1-indexed
-	for _, dp := range results.Result[0].DataPoints {
-		excelFile.SetCellValue(sheetID, fmt.Sprintf("A%d", lineID), dp.Size)
-		lineID++
-	}
-
-	// Add the values
-	col = 1    // 0-indexed so it can be used with IntToAA
-	lineID = 2 // 1-indexed
-	for _, d := range results.Result {
-		err := addValuesToExcel(excelFile, sheetID, lineID, col, d.DataPoints)
+	if spreadsheetMetadata != nil {
+		err := addMetadataToSpreadsheet(excelFile, spreadsheetMetadata)
 		if err != nil {
-			return nil, err
+			return nil, fmt.Errorf("addMetadataToSpreadsheet() failed: %w", err)
 		}
-		col++
+	}
+
+	err := addDataToSpreadsheet(excelFile, spreadsheetData)
+	if err != nil {
+		return nil, fmt.Errorf("addDataToSpreadsheet() failed: %w", err)
 	}
 
 	return excelFile, nil
 }
 
-func NewExcelSheetsWithLabels(excelFilePath string, results *Results, labels []string) error {
-	excelFile, err := ExcelizeWithLabels(1, results, labels)
+// NewExcelSheetsWithLabels creates a new Excel spreadsheet at the provided excelFilePath that
+// will store all the metadata and data that is passed on. The metadata is optional (can be nil)
+// but the data must be valid.
+func NewExcelSheetsWithLabels(excelFilePath string, spreadsheetMetadata *SpreadsheetMetadata, spreadsheetData *SpreadsheetData) error {
+	excelFile, err := ExcelizeWithLabels(spreadsheetMetadata, spreadsheetData)
 	if err != nil {
 		return fmt.Errorf("results.Excelize() failed: %w", err)
 	}
@@ -267,4 +379,3 @@ func NewExcelSheetsWithLabels(excelFilePath string, results *Results, labels []s
 
 	return nil
 }
-
