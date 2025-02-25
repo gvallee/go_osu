@@ -233,12 +233,12 @@ func addMetadataToSpreadsheet(excelFile *excelize.File, spreadsheetMetadata *Spr
 
 	// Timestamp
 	excelFile.SetCellValue(sheetID, fmt.Sprintf("%s%d", notation.IntToAA(col), lineID), spreadsheetMetadata.Timestamp)
-	col++
+	lineID++
 
 	// Metadata content passed in by the user
 	for _, line := range spreadsheetMetadata.Content {
 		excelFile.SetCellValue(sheetID, fmt.Sprintf("%s%d", notation.IntToAA(col), lineID), line)
-		col++
+		lineID++
 	}
 
 	return nil
