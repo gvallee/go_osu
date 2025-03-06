@@ -1,6 +1,8 @@
 module github.com/gvallee/go_osu
 
-go 1.18
+go 1.22.1
+
+toolchain go1.23.7
 
 require (
 	github.com/360EntSecGroup-Skylar/excelize v1.4.1
