@@ -5,8 +5,7 @@ go 1.22.1
 toolchain go1.23.7
 
 require (
-	github.com/360EntSecGroup-Skylar/excelize v1.4.1
-	github.com/gvallee/go_benchmark v1.1.1
+	github.com/gvallee/go_benchmark v1.2.0
 	github.com/gvallee/go_hpc_jobmgr v1.4.3
 	github.com/gvallee/go_software_build v1.4.2
 	github.com/gvallee/go_util v1.6.0
@@ -14,6 +13,7 @@ require (
 )
 
 require (
+	github.com/360EntSecGroup-Skylar/excelize v1.4.1 // indirect
 	github.com/gvallee/go_exec v1.2.2 // indirect
 	github.com/gvallee/go_module v1.0.1 // indirect
 	github.com/gvallee/kv v1.0.0 // indirect

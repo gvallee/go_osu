@@ -6,6 +6,8 @@ import (
 	"path/filepath"
 	"strings"
 	"testing"
+
+	"github.com/gvallee/go_benchmark/pkg/benchmark"
 )
 
 const (
@@ -79,10 +81,10 @@ func TestExtractDataFromOutput(t *testing.T) {
 	}
 }
 
-func rawDataToResults(dataSizes []float64, values []float64, res *Results) {
-	newRes := new(Result)
+func rawDataToResults(dataSizes []float64, values []float64, res *benchmark.Results) {
+	newRes := new(benchmark.Result)
 	for i := 0; i < len(dataSizes); i++ {
-		newDataPoint := new(DataPoint)
+		newDataPoint := new(benchmark.DataPoint)
 		newDataPoint.Size = dataSizes[i]
 		newDataPoint.Value = values[i]
 		newRes.DataPoints = append(newRes.DataPoints, newDataPoint)
@@ -90,7 +92,7 @@ func rawDataToResults(dataSizes []float64, values []float64, res *Results) {
 	res.Result = append(res.Result, newRes)
 }
 
-func prepExcelizeTest(t *testing.T) *Results {
+func prepExcelizeTest(t *testing.T) *benchmark.Results {
 	dataSizes, values, err := ExtractDataFromOutput(strings.Split(alltoallResultsExample1, "\n"))
 	if err != nil {
 		t.Fatalf("ExtractDataFromOutput() failed: %s", err)
@@ -109,7 +111,7 @@ func prepExcelizeTest(t *testing.T) *Results {
 		}
 	}
 
-	res := new(Results)
+	res := new(benchmark.Results)
 	rawDataToResults(dataSizes, values, res)
 	rawDataToResults(dataSizes2, values2, res)
 
@@ -125,7 +127,7 @@ func TestExcelize(t *testing.T) {
 	}
 	defer os.RemoveAll(tempDir)
 	tempFile := filepath.Join(tempDir, "test.xlsx")
-	err = Excelize(tempFile, res)
+	err = benchmark.Excelize(tempFile, res)
 	if err != nil {
 		t.Fatalf("Excelize() failed: %s", err)
 	}
@@ -141,12 +143,12 @@ func TestExcelizeWithLabels(t *testing.T) {
 	}
 	defer os.RemoveAll(tempDir)
 	tempFile := filepath.Join(tempDir, "test_with_labels.xlsx")
-	spreadsheetData := new(SpreadsheetData)
+	spreadsheetData := new(benchmark.SpreadsheetData)
 	spreadsheetData.SheetStart = 1
 	spreadsheetData.Data = res
 	spreadsheetData.Labels = labels
 
-	excelFile, err := ExcelizeWithLabels(nil, spreadsheetData)
+	excelFile, err := benchmark.ExcelizeWithLabels(nil, spreadsheetData)
 	if err != nil {
 		t.Fatalf("Excelize() failed: %s", err)
 	}
