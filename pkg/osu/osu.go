@@ -122,7 +122,7 @@ const (
 
 type SubBenchmark struct {
 	AppInfo      app.Info
-	OutputParser func(string) (*results.Result, error)
+	OutputParser func(string) (*benchmark.Result, error)
 }
 
 // GetPt2PtSubBenchmarks returns the list of all the point-to-point sub-benchmarks from OSU.
@@ -445,7 +445,7 @@ func GetCollectiveSubBenchmarks(basedir string, wp *workspace.Config, m map[stri
 	m[IscattervID] = iscattervInfo
 }
 
-func getSubBenchmarks(cfg *benchmark.Config, wp *workspace.Config, basedir string) map[string]SubBenchmark {
+func getSubBenchmarks(wp *workspace.Config, basedir string) map[string]SubBenchmark {
 	m := make(map[string]SubBenchmark)
 	GetCollectiveSubBenchmarks(basedir, wp, m)
 	GetPt2PtSubBenchmarks(basedir, wp, m)
@@ -542,7 +542,7 @@ func DetectInstall(cfg *benchmark.Config, wp *workspace.Config) map[string]*benc
 	log.Println("Detecting OSU installation...")
 	for _, basedir := range basedirs {
 		installInfo := new(benchmark.Install)
-		osuBenchmarks := getSubBenchmarks(cfg, wp, basedir)
+		osuBenchmarks := getSubBenchmarks(wp, basedir)
 		for benchmarkName, benchmarkInfo := range osuBenchmarks {
 			log.Printf("-> Checking if %s is installed...", benchmarkName)
 			if fsutil.FileExists(benchmarkInfo.AppInfo.BinPath) {

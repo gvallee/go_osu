@@ -3,8 +3,8 @@ github.com/360EntSecGroup-Skylar/excelize v1.4.1/go.mod h1:vnax29X2usfl7HHkBrX5E
 github.com/davecgh/go-spew v1.1.0/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
 github.com/davecgh/go-spew v1.1.1 h1:vj9j/u1bqnvCEfJOwUhtlOARqs3+rkHYY13jYWTU97c=
 github.com/davecgh/go-spew v1.1.1/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
-github.com/gvallee/go_benchmark v1.1.1 h1:zmrXMh1aZPHAxdUBIRcdTtw08+j4fLIQ0QKPM458JqI=
-github.com/gvallee/go_benchmark v1.1.1/go.mod h1:lEcAB4wYW42t7Hv7UKd2MYfGTrb7ZuGF7A34ttGcmuM=
+github.com/gvallee/go_benchmark v1.2.0 h1:tNHNZxPvIPG61zt13SBDswHI5RMQwF2cvVuPeKraH30=
+github.com/gvallee/go_benchmark v1.2.0/go.mod h1:+34JQLDuCsE4I+NHOUYJVhXkYJ9I0/CWbR2irFB3qpo=
 github.com/gvallee/go_exec v1.2.2 h1:0gWUN/zHAl6bZiLBSNAtBtwD1GvUBOavpM9Lnp7ke+A=
 github.com/gvallee/go_exec v1.2.2/go.mod h1:lmOyPu3oseS+RDHpd/AEJD4x/XWEPVYsQ+A++uoeLdM=
 github.com/gvallee/go_hpc_jobmgr v1.4.3 h1:5HsbiZykWeKy9UO4IAYJ3LRChBQsQ7F14txzV546ACQ=
